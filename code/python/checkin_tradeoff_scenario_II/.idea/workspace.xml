@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="af6ff855-c670-49d6-b200-5d04fe8317df" name="Default Changelist" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/main.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="76">
+              <caret line="4" column="19" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
+              <folding>
+                <element signature="e#382#457#0" />
+                <element signature="e#493#1019#0" />
+                <element signature="e#1068#3584#0" />
+                <element signature="e#3628#3766#0" />
+                <element signature="e#3813#3950#0" />
+                <element signature="e#3991#4468#0" />
+                <element signature="e#4518#9003#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/obfuscations.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="570">
+              <caret line="445" column="43" selection-start-line="445" selection-start-column="43" selection-end-line="445" selection-end-column="43" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+                <element signature="e#324#8916#0" />
+                <element signature="e#9373#18190#0" />
+                <element signature="e#17971#19469#0" />
+                <element signature="e#19450#21200#0" />
+                <element signature="e#26411#27417#0" />
+                <element signature="e#27436#28107#0" />
+                <element signature="e#28127#28690#0" />
+                <element signature="e#28714#29468#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/funcs.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="228">
+              <caret line="12" column="43" selection-start-line="12" selection-start-column="43" selection-end-line="12" selection-end-column="43" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+                <element signature="e#834#996#0" />
+                <element signature="e#1046#1113#0" />
+                <element signature="e#1164#1419#0" />
+                <element signature="e#1472#2170#0" />
+                <element signature="e#2203#2260#0" />
+                <element signature="e#2312#3986#0" />
+                <element signature="e#4183#5382#0" />
+                <element signature="e#5470#6424#0" />
+                <element signature="e#6367#9806#0" />
+                <element signature="e#8816#11170#0" />
+                <element signature="e#11213#12271#0" />
+                <element signature="e#12339#13788#0" />
+                <element signature="e#13869#15163#0" />
+                <element signature="e#15136#16191#0" />
+                <element signature="e#811#975#0" />
+                <element signature="e#1013#1178#0" />
+                <element signature="e#1212#1353#0" />
+                <element signature="e#1390#1622#0" />
+                <element signature="e#1656#1739#0" />
+                <element signature="e#1802#1980#0" />
+                <element signature="e#2055#2416#0" />
+                <element signature="e#2481#2679#0" />
+                <element signature="e#2777#3026#0" />
+                <element signature="e#3082#3464#0" />
+                <element signature="e#3492#3536#0" />
+                <element signature="e#3567#3751#0" />
+                <element signature="e#3775#3858#0" />
+                <element signature="e#3879#4008#0" />
+                <element signature="e#4102#6363#0" />
+                <element signature="e#6444#7657#0" />
+                <element signature="e#23136#24042#0" />
+                <element signature="e#8705#10105#0" />
+                <element signature="e#10175#11000#0" />
+                <element signature="e#11070#11816#0" />
+                <element signature="e#11855#12960#0" />
+                <element signature="e#15869#15939#0" />
+                <element signature="e#18250#18576#0" />
+                <element signature="e#18604#18924#0" />
+                <element signature="e#29244#29583#0" />
+                <element signature="e#29634#29975#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/utility_privacy_test.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="152">
+              <caret line="21" selection-start-line="21" selection-end-line="44" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>get_JSD_PGY</find>
+      <find>utility</find>
+      <find>normal</find>
+    </findStrings>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/obfuscations.py" />
+        <option value="$PROJECT_DIR$/funcs.py" />
+        <option value="$PROJECT_DIR$/main.py" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="263" />
+    <option name="y" value="31" />
+    <option name="width" value="1621" />
+    <option name="height" value="883" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="checkin_tradeoff_scenario_II" type="b2602c69:ProjectViewProjectNode" />
+              <item name="checkin_tradeoff_scenario_II" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/main.py" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="checkin_tradeoff_scenario_II" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="D:\Anaconda\envs\python3.6\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="af6ff855-c670-49d6-b200-5d04fe8317df" name="Default Changelist" comment="" />
+      <created>1581001349711</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1581001349711</updated>
+      <workItem from="1581001357077" duration="2206000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="2206000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="263" y="31" width="1621" height="883" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Favorites" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.12876362" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Python Console" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="SciView" />
+      <window_info anchor="right" id="Database" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/utility_privacy_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="21" selection-start-line="21" selection-end-line="44" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/funcs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="12" column="43" selection-start-line="12" selection-start-column="43" selection-end-line="12" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#834#996#0" />
+            <element signature="e#1046#1113#0" />
+            <element signature="e#1164#1419#0" />
+            <element signature="e#1472#2170#0" />
+            <element signature="e#2203#2260#0" />
+            <element signature="e#2312#3986#0" />
+            <element signature="e#4183#5382#0" />
+            <element signature="e#5470#6424#0" />
+            <element signature="e#6367#9806#0" />
+            <element signature="e#8816#11170#0" />
+            <element signature="e#11213#12271#0" />
+            <element signature="e#12339#13788#0" />
+            <element signature="e#13869#15163#0" />
+            <element signature="e#15136#16191#0" />
+            <element signature="e#811#975#0" />
+            <element signature="e#1013#1178#0" />
+            <element signature="e#1212#1353#0" />
+            <element signature="e#1390#1622#0" />
+            <element signature="e#1656#1739#0" />
+            <element signature="e#1802#1980#0" />
+            <element signature="e#2055#2416#0" />
+            <element signature="e#2481#2679#0" />
+            <element signature="e#2777#3026#0" />
+            <element signature="e#3082#3464#0" />
+            <element signature="e#3492#3536#0" />
+            <element signature="e#3567#3751#0" />
+            <element signature="e#3775#3858#0" />
+            <element signature="e#3879#4008#0" />
+            <element signature="e#4102#6363#0" />
+            <element signature="e#6444#7657#0" />
+            <element signature="e#23136#24042#0" />
+            <element signature="e#8705#10105#0" />
+            <element signature="e#10175#11000#0" />
+            <element signature="e#11070#11816#0" />
+            <element signature="e#11855#12960#0" />
+            <element signature="e#15869#15939#0" />
+            <element signature="e#18250#18576#0" />
+            <element signature="e#18604#18924#0" />
+            <element signature="e#29244#29583#0" />
+            <element signature="e#29634#29975#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/obfuscations.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="445" column="43" selection-start-line="445" selection-start-column="43" selection-end-line="445" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#324#8916#0" />
+            <element signature="e#9373#18190#0" />
+            <element signature="e#17971#19469#0" />
+            <element signature="e#19450#21200#0" />
+            <element signature="e#26411#27417#0" />
+            <element signature="e#27436#28107#0" />
+            <element signature="e#28127#28690#0" />
+            <element signature="e#28714#29468#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="4" column="19" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
+          <folding>
+            <element signature="e#382#457#0" />
+            <element signature="e#493#1019#0" />
+            <element signature="e#1068#3584#0" />
+            <element signature="e#3628#3766#0" />
+            <element signature="e#3813#3950#0" />
+            <element signature="e#3991#4468#0" />
+            <element signature="e#4518#9003#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
