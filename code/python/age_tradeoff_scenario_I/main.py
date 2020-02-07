@@ -1,4 +1,5 @@
 import random
+import os
 import pandas as pd
 import numpy as np
 import funcs
@@ -10,7 +11,7 @@ from sklearn.metrics import mean_absolute_error
 
 
 def item_user_selection():
-    df_item_age_uid = pd.read_csv('../../movielens/movielens_rating.csv')
+    df_item_age_uid = pd.read_csv('../../../movielens/movielens_rating.csv')
     df_item_age_dropU = df_item_age_uid.drop(['uid'], axis=1)
 
     df_item_age = df_item_age_dropU.groupby(['age']).sum()
@@ -22,8 +23,8 @@ def item_user_selection():
     df_item_age_uid_dropI = df_item_age_uid_dropI[df_item_age_uid_dropI.age > 17]
     df_item_age_uid_dropI = df_item_age_uid_dropI[df_item_age_uid_dropI.age < 51]
 
-    df_item_age_dropI.to_csv('../../movielens/movie_ages.csv', index=True)
-    df_item_age_uid_dropI.to_csv('../../movielens/movie_ages_uid.csv', index=False)
+    df_item_age_dropI.to_csv('../../../movielens/movie_ages.csv', index=True)
+    df_item_age_uid_dropI.to_csv('../../../movielens/movie_ages_uid.csv', index=False)
     return df_item_age_uid_dropI.reset_index(drop=True)
 
 
@@ -69,10 +70,6 @@ def recommendation(X_obf, X_ori, df_test):
     user_test = list(set(users) - set(user_train))
     df_obf_trainUser_KnownItem = df_X_obf.drop(user_test).values
     df_obf_testUser_KnownItem = df_X_obf.drop(user_train).values
-    #     P, D, Q = np.linalg.svd(df_obf_trainUser_KnownItem_, full_matrices=False)
-    #     df_obf_trainUser_KnownItem = np.matmul(np.matmul(P, np.diag(D)), Q)
-    #     P, D, Q = np.linalg.svd(df_obf_testUser_KnownItem_, full_matrices=False)
-    #     df_obf_testUser_KnownItem = np.matmul(np.matmul(P, np.diag(D)), Q)
 
     testUser_obf_similarity = cosine_similarity(df_obf_testUser_KnownItem, df_obf_trainUser_KnownItem)
     normed_testUser_obf_similarity = normalize(testUser_obf_similarity, axis=1, norm='l1')
@@ -86,7 +83,6 @@ def recommendation(X_obf, X_ori, df_test):
 
     trainUser_RcdItem_rating_or_not = df_trainUser_RcdItem_df.copy()
     trainUser_RcdItem_rating_or_not[trainUser_RcdItem_rating_or_not > 0] = 1
-    # RcdItem_rating_user_num = (np.array(RcdItem_rating_user_num.values)+1)/len(user_train)
     trainUser_RcdItem_rating_or_not_value = trainUser_RcdItem_rating_or_not.values
 
     small_number = 0.00000001
@@ -102,8 +98,7 @@ def recommendation(X_obf, X_ori, df_test):
     testUser_obf_items = testUser_obf_items.reshape(row * col, )
     df_testUser_RcdItem = df_testUser_RcdItem.reshape(row * col, )
     rmse_obf = np.sqrt(np.sum((testUser_obf_items - df_testUser_RcdItem) ** 2) / np.count_nonzero(df_testUser_RcdItem))
-    # rmse_obf = sqrt(mean_squared_error(testUser_obf_items.reshape(1,row*col), df_testUser_RcdItem.reshape(1, row*col)))
-    #
+
     df_ori_trainUser_KnownItem = df_X_ori.drop(user_test).values[:, :-2]
     df_ori_testUser_KnownItem = df_X_ori.drop(user_train).values[:, :-2]
     testUser_ori_similarity = cosine_similarity(df_ori_testUser_KnownItem, df_ori_trainUser_KnownItem)
@@ -117,9 +112,6 @@ def recommendation(X_obf, X_ori, df_test):
     row, col = testUser_ori_items.shape
     testUser_ori_items = testUser_ori_items.reshape(row * col, )
     rmse_ori = np.sqrt(np.sum((testUser_ori_items - df_testUser_RcdItem) ** 2) / np.count_nonzero(df_testUser_RcdItem))
-    # rmse_ori = sqrt(mean_squared_error(testUser_ori_items.reshape(1,row*col), df_testUser_RcdItem.reshape(1, row*col)))
-
-    #     print('rmse_ori:',rmse_ori,'rmse_obf:',rmse_obf)
 
     return rmse_ori, rmse_obf
 
@@ -141,6 +133,11 @@ if __name__ == "__main__":
                        70, 71, 72, 73, 74, 76, 78, 80, 82, 86, 87]
     
     # clustering and age group initialization
+    if os.path.exists('tmp'):
+        pass
+    else:
+        os.makedirs('tmp')
+
     df_item_age_uid = item_user_selection()
     age_list = list(set(df_item_age_uid['age'].values))
     age_list.sort()
@@ -152,7 +149,7 @@ if __name__ == "__main__":
     cols_change.extend(['age_group', 'age', 'uid'])
     df_item_ageGroup_uid = df_item_age_uid[cols_change]
     age_group_dict, group_age_dict = age_group_initiate_movieLens(age_list)
-    if method in ['HyObscure', 'YGen']:
+    if method in ['HyObscure', 'YGen', 'XObf']:
         funcs.update_age_group(df_item_ageGroup_uid, age_group_dict)
     random.seed(32)
     df_cluster = funcs.Kmeans_clustering(df_item_ageGroup_uid, cluster_num, -3)
@@ -207,21 +204,35 @@ if __name__ == "__main__":
             print("test items {}".format(df_test_items.shape[1]))
                   
             if method == 'HyObscure':
-                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.HyObscure()
+                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.HyObscure(df_train, df_test, df_test_rec_items,
+                                df_item_age_uid,age_group_dict, group_age_dict, cluster_num, age_group_number,age_list,
+                                                                                deltaX, k_threshold, l_threshold, pp)
             elif method == 'YGen':
-                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.YGen()
+                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.YGen(df_train, df_test, df_test_rec_items,
+                                                                           df_item_age_uid, age_group_number, cluster_num,
+                                                                            deltaX, age_list, age_group_dict,
+                                                                           group_age_dict, k_threshold, l_threshold, pp)
             elif method == 'XObf':
-                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.XObf()
+                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.XObf(df_train, df_test, age_group_number,
+                                                                           cluster_num, deltaX, age_list, group_age_dict, pp)
             elif method == 'PrivCheck':
-                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.PrivCheck()
+                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.PrivCheck(df_train, df_test, df_test_rec_items,
+                                                                                age_group_number, cluster_num,
+                                                                                deltaX, age_list, age_group_dict,
+                                                                                group_age_dict, pp)
             elif method == 'DP':
-                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.differential_privacy()
+                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.differential_privacy(df_train, df_test,
+                                                                                           df_test_rec_items,
+                                                                                           age_group_dict, beta)
             elif method == 'Frapp':
-                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.Frapp()
+                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.Frapp(df_train, df_test, df_test_rec_items,
+                                                                            age_group_dict, gamma, pp)
             elif method == 'Random':
-                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.Random()
+                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.Random(df_train, df_test, df_test_rec_items,
+                                                                             age_group_dict, p_rand, pp)
             elif method == 'Sim':
-                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.Similarity()
+                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.Similarity(df_train, df_test, df_test_rec_items,
+                                                                                 age_group_dict, pp)
             else:
                 print('Method error. Check method setting.')
                 break

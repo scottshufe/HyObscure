@@ -1,4 +1,5 @@
 import random
+import os
 import pandas as pd
 import numpy as np
 import funcs
@@ -8,7 +9,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 
 def item_user_selection():
-    df_item_age_uid = pd.read_csv('../../movielens/movielens_rating.csv')
+    df_item_age_uid = pd.read_csv('../../../movielens/movielens_rating.csv')
     df_item_age_dropU = df_item_age_uid.drop(['uid'], axis=1)
 
     df_item_age = df_item_age_dropU.groupby(['age']).sum()
@@ -20,8 +21,8 @@ def item_user_selection():
     df_item_age_uid_dropI = df_item_age_uid_dropI[df_item_age_uid_dropI.age > 17]
     df_item_age_uid_dropI = df_item_age_uid_dropI[df_item_age_uid_dropI.age < 51]
 
-    df_item_age_dropI.to_csv('../../movielens/movie_ages.csv', index=True)
-    df_item_age_uid_dropI.to_csv('../../movielens/movie_ages_uid.csv', index=False)
+    df_item_age_dropI.to_csv('../../../movielens/movie_ages.csv', index=True)
+    df_item_age_uid_dropI.to_csv('../../../movielens/movie_ages_uid.csv', index=False)
     return df_item_age_uid_dropI.reset_index(drop=True)
 
 
@@ -131,6 +132,11 @@ if __name__ == "__main__":
     cluster_seed = 34
     
     # clustering and age group initialization
+    if os.path.exists('tmp'):
+        pass
+    else:
+        os.makedirs('tmp')
+
     random.seed(cluster_seed)
     df_item_age_uid = item_user_selection()
     age_list = list(set(df_item_age_uid['age'].values))
@@ -139,11 +145,12 @@ if __name__ == "__main__":
     age_group_dict, group_age_dict = age_group_initiate_movieLens(age_list)
     
     df_item_age_uid['age_group'] = pd.Series(np.zeros(df_item_age_uid.shape[0]), index=df_item_age_uid.index, dtype='int32')
-    df_item_ageGroup_uid = funcs.update_age_group(df_item_age_uid, age_group_dict)
-    cols = list(df_item_ageGroup_uid.columns.values)
+    if method in ['HyObscure', 'YGen', 'XObf']:
+        df_item_age_uid = funcs.update_age_group(df_item_age_uid, age_group_dict)
+    cols = list(df_item_age_uid.columns.values)
     cols_change = cols[:-3]
     cols_change.extend(['age_group', 'age', 'uid'])
-    df_item_ageGroup_uid = df_item_ageGroup_uid[cols_change]
+    df_item_ageGroup_uid = df_item_age_uid[cols_change]
 
     df_cluster = funcs.Kmeans_clustering(df_item_ageGroup_uid, cluster_num, -3)
     
@@ -173,21 +180,24 @@ if __name__ == "__main__":
             df_test = df_cluster.drop(items_train, axis=1)
             
             if method == 'HyObscure':
-                X_obf_dict, X_ori = obfuscations.HyObscure()
+                X_obf_dict, X_ori = obfuscations.HyObscure(cluster_num, age_group_number, age_group_dict, group_age_dict,
+              age_list, deltaX, k_threshold, l_threshold, df_train, df_item_age_uid, pp)
             elif method == 'YGen':
-                X_obf_dict, X_ori = obfuscations.YGen()
+                X_obf_dict, X_ori = obfuscations.YGen(df_train, age_group_number, cluster_num, age_list, age_group_dict, group_age_dict,
+         df_item_age_uid, deltaX, k_threshold, l_threshold, pp)
             elif method == 'XObf':
-                X_obf_dict, X_ori = obfuscations.XObf()
+                X_obf_dict, X_ori = obfuscations.XObf(deltaX, cluster_num, age_group_number, age_list, group_age_dict, df_train, pp)
             elif method == 'PrivCheck':
-                X_obf_dict, X_ori = obfuscations.PrivCheck()
+                X_obf_dict, X_ori = obfuscations.PrivCheck(deltaX, cluster_num, age_group_number, df_cluster, df_train, age_list,
+              age_group_dict, group_age_dict, pp)
             elif method == 'DP':
-                X_obf_dict, X_ori = obfuscations.differential_privacy()
+                X_obf_dict, X_ori = obfuscations.differential_privacy(df_train, age_group_dict, beta)
             elif method == 'Frapp':
-                X_obf_dict, X_ori = obfuscations.Frapp()
+                X_obf_dict, X_ori = obfuscations.Frapp(df_train, df_test, age_group_dict, gamma)
             elif method == 'Random':
-                X_obf_dict, X_ori = obfuscations.Random()
+                X_obf_dict, X_ori = obfuscations.Random(df_train, age_group_dict, p_rand)
             elif method == 'Sim':
-                X_obf_dict, X_ori = obfuscations.Similarity()
+                X_obf_dict, X_ori = obfuscations.Similarity(df_train, age_group_dict, pp)
             else:
                 print('Method error. Check method setting.')
                 break

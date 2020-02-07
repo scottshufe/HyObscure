@@ -27,7 +27,6 @@ def HyObscure(cluster_num, age_group_number, age_group_dict, group_age_dict,
     pgy = np.ones((len(age_list), cluster_num * age_group_number)) * 0.00000001
     group_min_age_dict = {}
     group_usersize_dict = {}
-    min_distortion_budget = 0
     for op in range(0, 5):
         age_xpgg_dict = {}
         ###### Compute JSD, pgy, xpgg
@@ -43,12 +42,13 @@ def HyObscure(cluster_num, age_group_number, age_group_dict, group_age_dict,
 
             JSD_Mat_dict[ag] = funcs.cal_JSD_Matrix_withoutAgeGroup(df_train_ag, cluster_num, 4)
             pgy_dict[ag] = funcs.cal_pgy_withoutAgeGroup(df_train_ag, cluster_num, age_list_ag)
-            pd.DataFrame(JSD_Mat_dict[ag]).to_csv('JSDM_ageGroup_11.csv', index=False, header=None)
-            pd.DataFrame(pgy_dict[ag]).to_csv('pgy_ageGroup_11.csv', index=False, header=None)
+            pd.DataFrame(JSD_Mat_dict[ag]).to_csv('tmp/JSDM_ageGroup_hyobscure.csv', index=False, header=None)
+            pd.DataFrame(pgy_dict[ag]).to_csv('tmp/pgy_ageGroup_hyobscure.csv', index=False, header=None)
 
             eng = matlab.engine.start_matlab()
-            eng.edit('ageGroupPrivacyObf_allObf_11', nargout=0)
-            age_xpgg_dict[ag], db = np.array(eng.ageGroupPrivacyObf_allObf_11(deltaX, nargout=2))
+            eng.edit('../../matlab/age_tradeoff_scenario_II/HyObscure', nargout=0)
+            eng.cd('../../matlab/age_tradeoff_scenario_II', nargout=0)
+            age_xpgg_dict[ag], db = np.array(eng.HyObscure(deltaX, nargout=2))
             age_xpgg_dict[ag] = np.array(age_xpgg_dict[ag])
 
         for ag in range(age_group_number):
@@ -66,9 +66,9 @@ def HyObscure(cluster_num, age_group_number, age_group_dict, group_age_dict,
                     xpgg[ag + row * age_group_number, ag + col * age_group_number] = age_xpgg_dict[ag][row, col]
                     JSD_Mat[ag + row * age_group_number, ag + col * age_group_number] = JSD_Mat_dict[ag][row, col]
 
-        pd.DataFrame(xpgg).to_csv('xpgg.csv', index=False, header=None)
-        pd.DataFrame(pgy).to_csv('pgy_full.csv', index=False, header=None)
-        pd.DataFrame(JSD_Mat).to_csv('JSD_full.csv', index=False, header=None)
+        # pd.DataFrame(xpgg).to_csv('xpgg.csv', index=False, header=None)
+        # pd.DataFrame(pgy).to_csv('pgy_full.csv', index=False, header=None)
+        # pd.DataFrame(JSD_Mat).to_csv('JSD_full.csv', index=False, header=None)
 
         min_JSD_Mat = JSD_Mat
         min_pgy = pgy
@@ -156,12 +156,13 @@ def YGen(df_train, age_group_number, cluster_num, age_list, age_group_dict, grou
         pgy_dict[ag] = funcs.cal_pgy_withoutAgeGroup(df_train_ag, cluster_num, age_list_ag)
         # print(JSD_Mat_dict[ag].shape)
         # print(pgy_dict[ag].shape)
-        pd.DataFrame(JSD_Mat_dict[ag]).to_csv('JSDM_ageGroup_approach1_y.csv', index=False, header=None)
-        pd.DataFrame(pgy_dict[ag]).to_csv('pgy_ageGroup_approach1_y.csv', index=False, header=None)
+        pd.DataFrame(JSD_Mat_dict[ag]).to_csv('tmp/JSDM_ageGroup_ygen.csv', index=False, header=None)
+        pd.DataFrame(pgy_dict[ag]).to_csv('tmp/pgy_ageGroup_ygen.csv', index=False, header=None)
 
         eng = matlab.engine.start_matlab()
-        eng.edit('ageGroupPrivacyObf_approach1_getBudget_y', nargout=0)
-        age_xpgg_dict[ag], distortion_budget = np.array(eng.ageGroupPrivacyObf_approach1_getBudget_y(deltaX, nargout=2))
+        eng.edit('../../matlab/age_tradeoff_scenario_II/YGen', nargout=0)
+        eng.cd('../../matlab/age_tradeoff_scenario_II', nargout=0)
+        age_xpgg_dict[ag], distortion_budget = np.array(eng.YGen(deltaX, nargout=2))
         age_xpgg_dict[ag] = np.array(age_xpgg_dict[ag])
 
 
@@ -292,12 +293,13 @@ def XObf(deltaX, cluster_num, age_group_number, age_list, group_age_dict, df_tra
         JSD_Mat_dict[ag] = funcs.cal_JSD_Matrix_withoutAgeGroup(df_train_ag, cluster_num, 4)
         pgy_dict[ag] = funcs.cal_pgy_withoutAgeGroup(df_train_ag, cluster_num, age_list_ag)
 
-        pd.DataFrame(JSD_Mat_dict[ag]).to_csv('JSDM_ageGroup_approach1_y.csv', index=False, header=None)
-        pd.DataFrame(pgy_dict[ag]).to_csv('pgy_ageGroup_approach1_y.csv', index=False, header=None)
+        pd.DataFrame(JSD_Mat_dict[ag]).to_csv('tmp/JSDM_ageGroup_xobf.csv', index=False, header=None)
+        pd.DataFrame(pgy_dict[ag]).to_csv('tmp/pgy_ageGroup_xobf.csv', index=False, header=None)
 
         eng = matlab.engine.start_matlab()
-        eng.edit('ageGroupPrivacyObf_approach1_getBudget_y', nargout=0)
-        age_xpgg_dict[ag], distortion_budget = np.array(eng.ageGroupPrivacyObf_approach1_getBudget_y(deltaX, nargout=2))
+        eng.edit('../../matlab/age_tradeoff_scenario_II/XObf', nargout=0)
+        eng.cd('../../matlab/age_tradeoff_scenario_II', nargout=0)
+        age_xpgg_dict[ag], distortion_budget = np.array(eng.XObf(deltaX, nargout=2))
         age_xpgg_dict[ag] = np.array(age_xpgg_dict[ag])
 
     for ag in range(age_group_number):
@@ -326,9 +328,9 @@ def XObf(deltaX, cluster_num, age_group_number, age_list, group_age_dict, df_tra
 def PrivCheck(deltaX, cluster_num, age_group_number, df_cluster, df_train, age_list,
               age_group_dict, group_age_dict, pp):
 
-    pd.DataFrame(funcs.cal_JSD_Matrix_withAgeGroup(df_cluster, cluster_num, 1, 4)).to_csv('JSDM_ageGroup.csv', index=False, header=None)
+    # pd.DataFrame(funcs.cal_JSD_Matrix_withAgeGroup(df_cluster, cluster_num, 1, 4)).to_csv('tmp/JSDM_ageGroup_privcheck.csv', index=False, header=None)
     pd.DataFrame(funcs.cal_pgy_withAgeGroup(df_train, cluster_num, 1, age_list)).to_csv(
-        'pgy_ageGroup_yang_origin.csv', index=False, header=None)
+        'tmp/pgy_ageGroup_privcheck.csv', index=False, header=None)
 
     funcs.update_age_group(df_train, age_group_dict)
     JSD_Mat_dict = np.zeros((cluster_num, cluster_num, age_group_number))
@@ -341,15 +343,15 @@ def PrivCheck(deltaX, cluster_num, age_group_number, df_cluster, df_train, age_l
         group_usersize_dict[ag] = df_train_ag.shape[0]
 
         JSD_Mat_dict[:, :, ag] = funcs.cal_JSD_Matrix_withoutAgeGroup(df_train_ag, cluster_num, 4)
-        print(JSD_Mat_dict[:, :, ag])
-    scipy.io.savemat('JSDM_ageGroup_origin.mat', {"JSD_Mat_input_origin": JSD_Mat_dict})
+    scipy.io.savemat('tmp/JSDM_ageGroup_privcheck.mat', {"JSD_Mat_input_origin": JSD_Mat_dict})
 
-    pd.DataFrame(JSD_Mat_dict[ag]).to_csv('JSDM_ageGroup_yang_origin.csv', index=False, header=None)
+    # pd.DataFrame(JSD_Mat_dict[ag]).to_csv('tmp/JSDM_ageGroup_privcheck.csv', index=False, header=None)
 
     ### Calculate obfuscation matrix xpgg via matlab
     eng = matlab.engine.start_matlab()
-    eng.edit('ageGroupPrivacyObf_yang_getBudget_origin', nargout=0)
-    xpgg, distortion_budget = np.array(eng.ageGroupPrivacyObf_yang_getBudget_origin(deltaX, nargout=2))
+    eng.edit('../../matlab/age_tradeoff_scenario_II/PrivCheck', nargout=0)
+    eng.cd('../../matlab/age_tradeoff_scenario_II', nargout=0)
+    xpgg, distortion_budget = np.array(eng.PrivCheck(deltaX, nargout=2))
     xpgg = np.array(xpgg)
 
     df_train['age_group'] = pd.Series(np.zeros(df_train.shape[0]), index=df_train.index, dtype='int32')

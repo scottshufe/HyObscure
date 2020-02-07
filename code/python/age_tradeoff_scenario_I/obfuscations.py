@@ -37,12 +37,14 @@ def HyObscure(df_train, df_test, df_test_rec_items, df_item_age_uid,
             JSD_Mat_dict[ag] = funcs.cal_JSD_Matrix_withoutAgeGroup(df_test_ag, cluster_num, 4)
             print(ag, cluster_num, age_list_ag)
             pgy_dict[ag] = funcs.cal_pgy_withoutAgeGroup(df_test_ag, cluster_num, age_list_ag)
-            pd.DataFrame(JSD_Mat_dict[ag]).to_csv('JSDM_ageGroup_10.csv', index=False, header=None)
-            pd.DataFrame(pgy_dict[ag]).to_csv('pgy_ageGroup_10.csv', index=False, header=None)
+
+            pd.DataFrame(JSD_Mat_dict[ag]).to_csv('tmp/JSDM_ageGroup_hyobscure.csv', index=False, header=None)
+            pd.DataFrame(pgy_dict[ag]).to_csv('tmp/pgy_ageGroup_hyobscure.csv', index=False, header=None)
 
             eng = matlab.engine.start_matlab()
-            eng.edit('ageGroupPrivacyObf_10', nargout=0)
-            age_xpgg_dict[ag], distortion_budget = np.array(eng.ageGroupPrivacyObf_10(deltaX, nargout=2))
+            eng.edit('../../matlab/age_tradeoff_scenario_I/HyObscure', nargout=0)
+            eng.cd('../../matlab/age_tradeoff_scenario_I', nargout=0)
+            age_xpgg_dict[ag], distortion_budget = np.array(eng.HyObscure(deltaX, nargout=2))
             age_xpgg_dict[ag] = np.array(age_xpgg_dict[ag])
 
         for ag in range(age_group_number):
@@ -63,9 +65,9 @@ def HyObscure(df_train, df_test, df_test_rec_items, df_item_age_uid,
                     JSD_Mat[ag + row * age_group_number, ag + col * age_group_number] = JSD_Mat_dict[ag][
                         row, col]
 
-        pd.DataFrame(xpgg).to_csv('xpgg.csv', index=False, header=None)
-        pd.DataFrame(pgy).to_csv('pgy_full.csv', index=False, header=None)
-        pd.DataFrame(JSD_Mat).to_csv('JSD_full.csv', index=False, header=None)
+        # pd.DataFrame(xpgg).to_csv('xpgg.csv', index=False, header=None)
+        # pd.DataFrame(pgy).to_csv('pgy_full.csv', index=False, header=None)
+        # pd.DataFrame(JSD_Mat).to_csv('JSD_full.csv', index=False, header=None)
 
         min_JSD_Mat = JSD_Mat
         min_pgy = pgy
@@ -162,12 +164,13 @@ def YGen(df_train, df_test, df_test_rec_items, df_item_age_uid, age_group_number
         JSD_Mat_dict[ag] = funcs.cal_JSD_Matrix_withoutAgeGroup(df_test_ag, cluster_num, 4)
         pgy_dict[ag] = funcs.cal_pgy_withoutAgeGroup(df_test_ag, cluster_num, age_list_ag)
 
-        pd.DataFrame(JSD_Mat_dict[ag]).to_csv('JSDM_ageGroup_approach1_y.csv', index=False, header=None)
-        pd.DataFrame(pgy_dict[ag]).to_csv('pgy_ageGroup_approach1_y.csv', index=False, header=None)
+        pd.DataFrame(JSD_Mat_dict[ag]).to_csv('tmp/JSDM_ageGroup_ygen.csv', index=False, header=None)
+        pd.DataFrame(pgy_dict[ag]).to_csv('tmp/pgy_ageGroup_ygen.csv', index=False, header=None)
 
         eng = matlab.engine.start_matlab()
-        eng.edit('ageGroupPrivacyObf_approach1_getBudget_y', nargout=0)
-        age_xpgg_dict[ag], distortion_budget = np.array(eng.ageGroupPrivacyObf_approach1_getBudget_y(deltaX, nargout=2))
+        eng.edit('../../matlab/age_tradeoff_scenario_I/YGen', nargout=0)
+        eng.cd('../../matlab/age_tradeoff_scenario_I', nargout=0)
+        age_xpgg_dict[ag], distortion_budget = np.array(eng.YGen(deltaX, nargout=2))
         age_xpgg_dict[ag] = np.array(age_xpgg_dict[ag])
 
     for ag in range(age_group_number):
@@ -317,12 +320,13 @@ def XObf(df_train, df_test, age_group_number, cluster_num, deltaX, age_list, gro
 
         JSD_Mat_dict[ag] = funcs.cal_JSD_Matrix_withoutAgeGroup(df_test_ag, cluster_num, 4)
         pgy_dict[ag] = funcs.cal_pgy_withoutAgeGroup(df_test_ag, cluster_num, age_list_ag)
-        pd.DataFrame(JSD_Mat_dict[ag]).to_csv('JSDM_ageGroup_approach1_y.csv', index=False, header=None)
-        pd.DataFrame(pgy_dict[ag]).to_csv('pgy_ageGroup_approach1_y.csv', index=False, header=None)
+        pd.DataFrame(JSD_Mat_dict[ag]).to_csv('tmp/JSDM_ageGroup_XObf.csv', index=False, header=None)
+        pd.DataFrame(pgy_dict[ag]).to_csv('tmp/pgy_ageGroup_XObf.csv', index=False, header=None)
 
         eng = matlab.engine.start_matlab()
-        eng.edit('ageGroupPrivacyObf_approach1_getBudget_y', nargout=0)
-        age_xpgg_dict[ag], distortion_budget = np.array(eng.ageGroupPrivacyObf_approach1_getBudget_y(deltaX, nargout=2))
+        eng.edit('../../matlab/age_tradeoff_scenario_I/XObf', nargout=0)
+        eng.cd('../../matlab/age_tradeoff_scenario_I', nargout=0)
+        age_xpgg_dict[ag], distortion_budget = np.array(eng.XObf(deltaX, nargout=2))
         age_xpgg_dict[ag] = np.array(age_xpgg_dict[ag])
 
     for ag in range(age_group_number):
@@ -358,7 +362,7 @@ def PrivCheck(df_train, df_test, df_test_rec_items, age_group_number, cluster_nu
 
 
     pd.DataFrame(funcs.cal_pgy_withAgeGroup(df_test, cluster_num, 1, age_list)).to_csv(
-        'pgy_ageGroup_yang.csv',
+        'tmp/pgy_ageGroup_privcheck.csv',
         index=False, header=None)
 
     funcs.update_age_group(df_test, age_group_dict)
@@ -372,15 +376,14 @@ def PrivCheck(df_train, df_test, df_test_rec_items, age_group_number, cluster_nu
         group_usersize_dict[ag] = df_test_ag.shape[0]
 
         JSD_Mat_dict[:, :, ag] = funcs.cal_JSD_Matrix_withoutAgeGroup(df_test_ag, cluster_num, 4)
-        print(JSD_Mat_dict[:, :, ag])
-    scipy.io.savemat('JSDM_ageGroup.mat', {"JSD_Mat_input": JSD_Mat_dict})
+    scipy.io.savemat('tmp/JSDM_ageGroup_privcheck.mat', {"JSD_Mat_input": JSD_Mat_dict})
 
-    pd.DataFrame(JSD_Mat_dict[ag]).to_csv('JSDM_ageGroup_yang.csv', index=False, header=None)
+    pd.DataFrame(JSD_Mat_dict[ag]).to_csv('tmp/JSDM_ageGroup_yang.csv', index=False, header=None)
 
     eng = matlab.engine.start_matlab()
-    eng.edit('ageGroupPrivacyObf_yang_getBudget', nargout=0)
-
-    xpgg, distortion_budget = np.array(eng.ageGroupPrivacyObf_yang_getBudget(deltaX, nargout=2))
+    eng.edit('../../matlab/age_tradeoff_scenario_I/PrivCheck', nargout=0)
+    eng.cd('../../matlab/age_tradeoff_scenario_I', nargout=0)
+    xpgg, distortion_budget = np.array(eng.PrivCheck(deltaX, nargout=2))
     xpgg = np.array(xpgg)
 
     df_test['age_group'] = pd.Series(np.zeros(df_test.shape[0]), index=df_test.index, dtype='int32')
