@@ -12,7 +12,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 def HyObscure(deltaX, grid_area_number, cluster_num, k_threshold, l_threshold, df_test, grid_list,
               area_reducibility, grid_area_dict, area_grid_dict, area_grid_colrow_dict, area_grid_rowcol_dict,
-              colrow_to_grid, rowcol_to_grid, grid_colrow, grid_rowcol, df_train, df_test_rec_items, pp):
+              grid_colrow, grid_rowcol, df_train, df_test_rec_items, pp, method):
     df_test_copy = copy.deepcopy(df_test)
     df_test_copy['grid_group'] = pd.Series(np.zeros(df_test_copy.shape[0]), index=df_test_copy.index,
                                           dtype='int32')
@@ -27,14 +27,15 @@ def HyObscure(deltaX, grid_area_number, cluster_num, k_threshold, l_threshold, d
     for op in range(0, 3):
         ## compute JSD and pgy
         JSD_Mat, pgy, JSD_Mat_dict, pgy_dict = funcs.get_JSD_PGY(df_test, area_grid_dict,
-                                                                 JSD_Mat_dict, pgy_dict, JSD_Mat, pgy, cluster_num)
+                                                                 JSD_Mat_dict, pgy_dict, JSD_Mat, pgy, cluster_num, method)
         print('op:', op)
         grid_xpgg_dict = {}
         ## compute xpgg
         for gg in range(0, grid_area_number):
             eng = matlab.engine.start_matlab()
-            eng.edit('checkInPrivacyObf_Approach_II', nargout=0)
-            grid_xpgg_dict[gg] = np.array(eng.checkInPrivacyObf_Approach_II(deltaX, gg))
+            eng.edit('../../matlab/checkin_tradeoff_scenario_I/HyObscure', nargout=0)
+            eng.cd('../../matlab/checkin_tradeoff_scenario_I', nargout=0)
+            grid_xpgg_dict[gg] = np.array(eng.HyObscure(deltaX, gg))
 
             for row in range(cluster_num):
                 for col in range(cluster_num):
@@ -62,11 +63,11 @@ def HyObscure(deltaX, grid_area_number, cluster_num, k_threshold, l_threshold, d
                 # the selected area can be reduced through the selected direction
                 if d < 2:  ## change left or right
                     area_grid_line_list_dict = area_grid_rowcol_dict
-                    line_list_to_grid = rowcol_to_grid
+                    line_list_to_grid = funcs.rowcol_to_grid
                     grid_linelist = grid_rowcol
                 else:  ## change up or down
                     area_grid_line_list_dict = area_grid_colrow_dict
-                    line_list_to_grid = colrow_to_grid
+                    line_list_to_grid = funcs.colrow_to_grid
                     grid_linelist = grid_colrow
                 area_lines = list(area_grid_line_list_dict[area_code].keys())
                 area_lines.sort()
@@ -126,7 +127,7 @@ def HyObscure(deltaX, grid_area_number, cluster_num, k_threshold, l_threshold, d
 
                             new_JSD_Mat, new_pgy, new_JSD_Mat_dict, new_pgy_dict = funcs.get_JSD_PGY(df_test_new,
                                                                                                      area_grid_dict_cur,
-                                                                                                     JSD_Mat_dict, pgy_dict, JSD_Mat, pgy, cluster_num)
+                                                                                                     JSD_Mat_dict, pgy_dict, JSD_Mat, pgy, cluster_num, method)
                             new_mean_Utility = funcs.Mean_JSD(new_JSD_Mat, xpgg)
                             new_mean_Privacy = funcs.Mean_KL_div(new_pgy, xpgg)
 
@@ -182,7 +183,7 @@ def HyObscure(deltaX, grid_area_number, cluster_num, k_threshold, l_threshold, d
 
 def YGen(df_train, df_test, df_test_rec_items, cluster_num, grid_area_number, grid_list, area_grid_dict, grid_area_dict,
          l_threshold, k_threshold, area_reducibility, area_grid_rowcol_dict, area_grid_colrow_dict,
-         rowcol_to_grid, colrow_to_grid, grid_rowcol, grid_colrow, deltaX, pp):
+         grid_rowcol, grid_colrow, deltaX, pp, method):
     df_test_copy = copy.deepcopy(df_test)
     df_test_copy['grid_group'] = pd.Series(np.zeros(df_test_copy.shape[0]), index=df_test_copy.index,
                                            dtype='int32')
@@ -194,13 +195,14 @@ def YGen(df_train, df_test, df_test_rec_items, cluster_num, grid_area_number, gr
     JSD_Mat_dict = {}
     pgy_dict = {}
 
-    JSD_Mat, pgy, JSD_Mat_dict, pgy_dict = funcs.get_JSD_PGY(df_test, area_grid_dict, JSD_Mat_dict, pgy_dict, JSD_Mat, pgy, cluster_num)
+    JSD_Mat, pgy, JSD_Mat_dict, pgy_dict = funcs.get_JSD_PGY(df_test, area_grid_dict, JSD_Mat_dict, pgy_dict, JSD_Mat, pgy, cluster_num, method)
     grid_xpgg_dict = {}
     # compute xpgg
     for gg in range(0, grid_area_number):
         eng = matlab.engine.start_matlab()
-        eng.edit('checkInPrivacyObf_Approach_I', nargout=0)
-        grid_xpgg_dict[gg] = np.array(eng.checkInPrivacyObf_Approach_I(deltaX, gg))
+        eng.edit('../../matlab/checkin_tradeoff_scenario_I/YGen', nargout=0)
+        eng.cd('../../matlab/checkin_tradeoff_scenario_I', nargout=0)
+        grid_xpgg_dict[gg] = np.array(eng.YGen(deltaX, gg))
 
         for row in range(cluster_num):
             for col in range(cluster_num):
@@ -213,7 +215,7 @@ def YGen(df_train, df_test, df_test_rec_items, cluster_num, grid_area_number, gr
     pgy_dict = {}
 
     ## compute JSD and pgy
-    JSD_Mat, pgy, JSD_Mat_dict, pgy_dict = funcs.get_JSD_PGY(df_test, area_grid_dict, JSD_Mat_dict, pgy_dict, JSD_Mat, pgy, cluster_num)
+    JSD_Mat, pgy, JSD_Mat_dict, pgy_dict = funcs.get_JSD_PGY(df_test, area_grid_dict, JSD_Mat_dict, pgy_dict, JSD_Mat, pgy, cluster_num, method)
 
     mean_Utility = funcs.Mean_JSD(JSD_Mat, xpgg)
     mean_Privacy = funcs.Mean_KL_div(pgy, xpgg)
@@ -236,11 +238,11 @@ def YGen(df_train, df_test, df_test_rec_items, cluster_num, grid_area_number, gr
             # the selected area can be reduced through the selected direction
             if d < 2:  ## change left or right
                 area_grid_line_list_dict = area_grid_rowcol_dict
-                line_list_to_grid = rowcol_to_grid
+                line_list_to_grid = funcs.rowcol_to_grid
                 grid_linelist = grid_rowcol
             else:  ## change up or down
                 area_grid_line_list_dict = area_grid_colrow_dict
-                line_list_to_grid = colrow_to_grid
+                line_list_to_grid = funcs.colrow_to_grid
                 grid_linelist = grid_colrow
             area_lines = list(area_grid_line_list_dict[area_code].keys())
             area_lines.sort()
@@ -301,7 +303,8 @@ def YGen(df_train, df_test, df_test_rec_items, cluster_num, grid_area_number, gr
                         df_test_new = funcs.update_grid_group(df_test, grid_area_dict_cur)
                         # try:
                         new_JSD_Mat, new_pgy, new_JSD_Mat_dict, new_pgy_dict = funcs.get_JSD_PGY(df_test_new,
-                                                                                           area_grid_dict_cur, JSD_Mat_dict, pgy_dict, JSD_Mat, pgy, cluster_num)
+                                                                                           area_grid_dict_cur, JSD_Mat_dict,
+                                                                                        pgy_dict, JSD_Mat, pgy, cluster_num, method)
                         new_mean_Utility = funcs.Mean_JSD(new_JSD_Mat, xpgg)
                         new_mean_Privacy = funcs.Mean_KL_div(new_pgy, xpgg)
 
@@ -358,7 +361,7 @@ def YGen(df_train, df_test, df_test_rec_items, cluster_num, grid_area_number, gr
     return X_obf_dict, X_ori, model_rf, model_xgb
 
 
-def XObf(df_train, df_test, deltaX, cluster_num, grid_area_number, grid_list, area_grid_dict, pp):
+def XObf(df_train, df_test, deltaX, cluster_num, grid_area_number, grid_list, area_grid_dict, pp, method):
     print("start training model...")
     # random forest
     model_rf = funcs.train_rf_model_check_in(df_train)
@@ -374,13 +377,15 @@ def XObf(df_train, df_test, deltaX, cluster_num, grid_area_number, grid_list, ar
     JSD_Mat_dict = {}
     pgy_dict = {}
 
-    JSD_Mat, pgy, JSD_Mat_dict, pgy_dict = funcs.get_JSD_PGY(df_test, area_grid_dict, JSD_Mat_dict, pgy_dict, JSD_Mat, pgy, cluster_num)
+    JSD_Mat, pgy, JSD_Mat_dict, pgy_dict = funcs.get_JSD_PGY(df_test, area_grid_dict, JSD_Mat_dict,
+                                                             pgy_dict, JSD_Mat, pgy, cluster_num, method)
     grid_xpgg_dict = {}
     # compute xpgg
     for gg in range(0, grid_area_number):
         eng = matlab.engine.start_matlab()
-        eng.edit('checkInPrivacyObf_Approach_I', nargout=0)
-        grid_xpgg_dict[gg] = np.array(eng.checkInPrivacyObf_Approach_I(deltaX, gg))
+        eng.edit('../../matlab/checkin_tradeoff_scenario_I/XObf', nargout=0)
+        eng.cd('../../matlab/checkin_tradeoff_scenario_I', nargout=0)
+        grid_xpgg_dict[gg] = np.array(eng.XObf(deltaX, gg))
 
         for row in range(cluster_num):
             for col in range(cluster_num):
@@ -404,7 +409,7 @@ def PrivCheck(df_train, df_test, df_test_rec_items, grid_area_dict, area_grid_di
     model_xgb = funcs.train_xgb_model_check_in(df_train)
 
     pd.DataFrame(funcs.cal_pgy_withoutGridGroup(df_test, cluster_num, grid_list)).to_csv(
-        'pgy_check_in_yang_trueTrain.csv', index=False, header=None)
+        'tmp/pgy_check_in_privcheck.csv', index=False, header=None)
 
     df_test = funcs.update_grid_group(df_test, grid_area_dict)
 
@@ -418,16 +423,13 @@ def PrivCheck(df_train, df_test, df_test_rec_items, grid_area_dict, area_grid_di
 
         JSD_Mat_dict[:, :, gg] = funcs.cal_JSD_Matrix_withoutGridGroup(df_test_gg, cluster_num, 4)
 
-    scipy.io.savemat('JSDM_girdGroup_Yang_trueTrain.mat', {"JSD_Mat_input_Yang_trueTrain": JSD_Mat_dict})
+    scipy.io.savemat('tmp/JSDM_girdGroup_privcheck.mat', {"JSD_Mat_input_Yang_trueTrain": JSD_Mat_dict})
 
     eng = matlab.engine.start_matlab()
-    eng.edit("checkInPrivacyObf_Yang_trueTrain", nargout=0)
-    xpgg, distortion_budget = np.array(eng.checkInPrivacyObf_Yang_trueTrain(deltaX, nargout=2))
+    eng.edit("../../matlab/checkin_tradeoff_scenario_I/PrivCheck", nargout=0)
+    eng.cd('../../matlab/checkin_tradeoff_scenario_I', nargout=0)
+    xpgg, distortion_budget = np.array(eng.PrivCheck(deltaX, nargout=2))
     xpgg = np.array(xpgg)
-
-    print('*'*20)
-    print(distortion_budget)
-    print('*' * 20)
 
     df_test['grid_group'] = pd.Series(np.zeros(df_test.shape[0]), index=df_test.index, dtype='int32')
 

@@ -16,6 +16,14 @@ def update_grid_group(df_train, grid_group_dict):
     return df_train_copy
 
 
+def rowcol_to_grid(row, col):
+    return row*60 + col
+
+
+def colrow_to_grid(col, row):
+    return row*60 + col
+
+
 def cal_JSD_Matrix_withoutGridGroup(df_cluster, cluster_dim, non_item_col):
     df_cluster_dict = {}
     for i in range(1, cluster_dim + 1):
@@ -69,7 +77,7 @@ def cal_pgy_withoutGridGroup(df_cluster, cluster_dim, grid_list):
     return pgy_Mat
 
 
-def get_JSD_PGY(df_cluster, area_grid_dict, JSD_Mat_dict, pgy_dict, JSD_Mat, pgy, cluster_num):
+def get_JSD_PGY(df_cluster, area_grid_dict, JSD_Mat_dict, pgy_dict, JSD_Mat, pgy, cluster_num, method):
     grid_area_number = len(list(area_grid_dict.keys()))
     group_usersize_dict = {}
     group_grid_size = {}
@@ -84,8 +92,8 @@ def get_JSD_PGY(df_cluster, area_grid_dict, JSD_Mat_dict, pgy_dict, JSD_Mat, pgy
 
         JSD_Mat_dict[gg] = cal_JSD_Matrix_withoutGridGroup(df_cluster_gg, cluster_num, 4)
         pgy_dict[gg] = cal_pgy_withoutGridGroup(df_cluster_gg, cluster_num, grid_list_gg)
-        pd.DataFrame(JSD_Mat_dict[gg]).to_csv('JSDM_check_in_' + str(gg) + '.csv', index=False, header=None)
-        pd.DataFrame(pgy_dict[gg]).to_csv('pgy_check_in_' + str(gg) + '.csv', index=False, header=None)
+        pd.DataFrame(JSD_Mat_dict[gg]).to_csv('tmp/JSDM_check_in_' + str(gg) + '_' + method + '.csv', index=False, header=None)
+        pd.DataFrame(pgy_dict[gg]).to_csv('tmp/pgy_check_in_' + str(gg) + '_' + method + '.csv', index=False, header=None)
 
     for gg in range(grid_area_number):
         grid_list_gg = area_grid_dict[gg]

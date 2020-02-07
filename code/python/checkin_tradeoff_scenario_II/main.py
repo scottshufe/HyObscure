@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 import random
 import funcs
 import numpy as np
@@ -7,7 +8,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 
 def read_data():
-    df = pd.read_csv('../check_in_data/check_in_data_3users.csv')
+    df = pd.read_csv('../../../check_in_data/check_in_data_3users.csv')
     return df
 
 
@@ -268,7 +269,8 @@ def recommendation(X_obf, X_ori, df_test):
 if __name__ == '__main__':
     # obfuscation method settings
     # all_methods = ['HyObscure', 'YGen', 'XObf', 'PrivCheck', 'DP', 'Frapp', 'Random', 'Sim']
-    method = "HyObscure"
+    # method = "HyObscure"
+    method = "PrivCheck"
     deltaX = 0.6
     pp_list = [0.9]
     
@@ -279,6 +281,11 @@ if __name__ == '__main__':
     l_threshold = 5
     
     # clustering and area initialization
+    if os.path.exists('tmp'):
+        pass
+    else:
+        os.makedirs('tmp')
+
     df = read_data()
     grid_list = list(set(df['grid'].values))
     grid_list.sort()
@@ -289,7 +296,10 @@ if __name__ == '__main__':
         grid_rowcol, grid_area_number)
         
     df['grid_group'] = pd.Series(np.zeros(df.shape[0]), index=df.index, dtype='int32')
-    df_grid_group = funcs.update_grid_group(df, grid_area_dict)
+    if method in ['HyObscure', 'YGen', 'XObf']:
+        df_grid_group = funcs.update_grid_group(df, grid_area_dict)
+    else:
+        df_grid_group = df
     cols = list(df.columns.values)
     cols_change = cols[:-3]
     cols_change.extend(['grid_group', 'grid', 'uid'])
@@ -346,21 +356,25 @@ if __name__ == '__main__':
             df_test = df_cluster.drop(items_train, axis=1)
             
             if method == 'HyObscure':
-                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.HyObscure()
+                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.HyObscure(df_train, grid_area_dict, area_grid_dict, cluster_num, grid_area_number, grid_list,
+                    area_reducibility, area_grid_rowcol_dict, area_grid_colrow_dict, method,
+                    grid_rowcol, grid_colrow, l_threshold, k_threshold, deltaX, pp)
             elif method == 'YGen':
-                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.YGen()
+                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.YGen(df_train, grid_area_dict, grid_area_number, cluster_num, grid_list, area_grid_dict, deltaX,
+                    area_reducibility, area_grid_rowcol_dict, area_grid_colrow_dict, method,
+                    grid_rowcol, grid_colrow, l_threshold, k_threshold, pp)
             elif method == 'XObf':
-                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.XObf()
+                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.XObf(df_train, cluster_num, grid_area_number, grid_list, grid_area_dict, area_grid_dict, deltaX, pp, method)
             elif method == 'PrivCheck':
-                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.PrivCheck()
+                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.PrivCheck(df_train, cluster_num, grid_list, grid_area_dict, grid_area_number, area_grid_dict, deltaX, pp)
             elif method == 'DP':
-                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.differential_privacy()
+                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.differential_privacy(df_train, grid_area_dict, grid_area_number, beta)
             elif method == 'Frapp':
-                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.Frapp()
+                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.Frapp(df_train, grid_area_dict, gamma)
             elif method == 'Random':
-                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.Random()
+                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.Random(df_train, grid_area_dict, p_rand)
             elif method == 'Sim':
-                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.Similarity()
+                X_obf_dict, X_ori, model_rf, model_xgb = obfuscations.Similarity(df_train, grid_area_dict, pp)
             else:
                 print('Method error. Check method setting.')
                 break
