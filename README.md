@@ -1,3 +1,2 @@
 # HyObscure
-test
-I love :coffee: :pizza: and :dancer:.
+Hello, Welcome to HyObscure :coffee: :pizza: :dancer:.
