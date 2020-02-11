@@ -270,13 +270,39 @@ if __name__ == '__main__':
     # obfuscation method settings
     # all_methods = ['HyObscure', 'YGen', 'XObf', 'PrivCheck', 'DP', 'Frapp', 'Random', 'Sim']
 
-    grid_area_number_list = [6, 4, 2]
+    # params for HyObscure
+    method = 'HyObscure'
+    deltaX = 0.6
 
-    method = "HyObscure"
-    # method = "PrivCheck"
+    # params for YGen
+    # method = 'YGen'
+    # deltaX = 0.6
+
+    # params for XObf
+    # method = 'XObf'
+    # deltaX = 0.6
+
+    # params for PrivCheck
+    # method = 'PrivCheck'
+    # deltaX = 0.6
+
+    # params for DP
+    # method = 'DP'
+    # beta = 5
+
+    # params for Frapp
+    # method = 'Frapp'
+    # gamma = 20
+
+    # params for Random
+    # method = 'Random'
+    # p_rand = 0.9
+
+    # params for Sim
+    # method = 'Sim'
     
     # fixed settings
-    deltaX = 0.6
+    grid_area_number_list = [6, 4, 2]
     pp = 0
     cluster_num = 8
     k_threshold = 10

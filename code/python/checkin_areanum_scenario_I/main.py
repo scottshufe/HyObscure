@@ -270,15 +270,41 @@ def recommendation(X_obf, X_ori, df_test):
 if __name__ == '__main__':
     # obfuscation method settings
     # all_methods = ['HyObscure', 'YGen', 'XObf', 'PrivCheck', 'DP', 'Frapp', 'Random', 'Sim']
+    method = 'HyObscure'
+    deltaX = 0.6
 
-    grid_area_number_list = [6, 4, 2]
+    # params for YGen
+    # method = 'YGen'
+    # deltaX = 0.6
 
-    method = "HyObscure"
-    
+    # params for XObf
+    # method = 'XObf'
+    # deltaX = 0.6
+
+    # params for PrivCheck
+    # method = 'PrivCheck'
+    # deltaX = 0.6
+
+    # params for DP
+    # method = 'DP'
+    # beta = 2
+
+    # params for Frapp
+    # method = 'Frapp'
+    # gamma = 50
+
+    # params for Random
+    # method = 'Random'
+    # p_rand = 0.9
+
+    # params for Sim
+    # method = 'Sim'
+
+
     # fixed settings
+    grid_area_number_list = [6, 4, 2]
     cluster_num = 8
     pp = 0
-    deltaX = 0.6
     k_threshold = 10
     l_threshold = 5
     
