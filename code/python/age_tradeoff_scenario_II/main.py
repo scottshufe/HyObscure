@@ -119,9 +119,31 @@ def recommendation(X_obf, X_ori, df_test):
 if __name__ == "__main__":
     # obfuscation method settings
     # all_methods = ['HyObscure', 'YGen', 'XObf', 'PrivCheck', 'DP', 'Frapp', 'Random', 'Sim']
+
+    # ***********************
+    # params for HyObscure, YGen, XObf, PrivCheck
     method = 'HyObscure'
     deltaX = 0.6
-    pp_list = [0.9]
+    pp_list = [0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2]
+
+    # params for DP
+    # method = 'DP'
+    # beta_list = [5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5]
+    # pp = 0
+
+    # params for Frapp
+    # method = 'Frapp'
+    # gamma_list = [3500, 3000, 2000, 1800, 1400, 1200, 800, 400]
+    # pp = 0
+
+    # params for Random
+    # method = 'Random'
+    # p_rand_list = [0.2, 0.3, 0.4, 0.5, 0.6]
+    # pp = 0
+
+    # params for Sim
+    # method = 'Sim'
+    # pp_list = [0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0]
 
     # fixed settings
     age_group_number = 4
@@ -153,8 +175,19 @@ if __name__ == "__main__":
     df_item_ageGroup_uid = df_item_age_uid[cols_change]
 
     df_cluster = funcs.Kmeans_clustering(df_item_ageGroup_uid, cluster_num, -3)
-    
+
+    # ********************************
+    # when methods in ['HyObscure', 'YGen', 'XObf', 'PrivCheck', 'Sim']
     for pp in pp_list:
+
+    # DP
+    # for beta in beta_list:
+
+    # Frapp
+    # for gamma in gamma_list:
+
+    # Random
+    # for p_rand in p_rand_list:
         results = {}
         results['mae_ori_rf'] = []
         results['mae_obf_rf'] = []

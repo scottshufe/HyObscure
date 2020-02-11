@@ -269,10 +269,29 @@ def recommendation(X_obf, X_ori, df_test):
 if __name__ == '__main__':
     # obfuscation method settings
     # all_methods = ['HyObscure', 'YGen', 'XObf', 'PrivCheck', 'DP', 'Frapp', 'Random', 'Sim']
-    # method = "HyObscure"
-    method = "PrivCheck"
+
+    # params for HyObscure, YGen, XObf, PrivCheck
+    method = "HyObscure"
     deltaX = 0.6
-    pp_list = [0.9]
+    pp_list = [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2]
+
+    # params for DP
+    # beta_list = [6, 20, 30, 50, 60, 70, 80, 100]
+    # pp = 0
+
+    # params for Frapp
+    # method = 'Frapp'
+    # gamma_list = [50, 100, 200, 300, 500, 800, 1000, 1400]
+    # pp = 0
+
+    # params for Random
+    # method = 'Random'
+    # p_rand_list = [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2]
+    # pp = 0
+
+    # params for Sim
+    # method = 'Sim'
+    # pp_list = [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2]
     
     # fixed settings
     cluster_num = 8
@@ -326,8 +345,19 @@ if __name__ == '__main__':
             cluster_col.append(i)
     df_cluster.cluster = cluster_col
     cluster_num = len(set(df_cluster.cluster))
-    
+
+    # ************************
+    # when method in [HyObscure, YGen, XObf, PrivCheck, Sim]
     for pp in pp_list:
+
+    # when DP
+    # for beta in beta_list:
+
+    # when Random
+    # for p_rand in p_rand_list:
+
+    # when Frapp
+    # for gamma in gamma_list:
         results = {}
         results['acc_ori_rf'] = []
         results['acc_obf_rf'] = []

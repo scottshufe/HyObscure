@@ -119,9 +119,66 @@ def recommendation(X_obf, X_ori, df_test):
 if __name__ == "__main__":
     # obfuscation method settings
     # all_methods = ['HyObscure', 'YGen', 'XObf', 'PrivCheck', 'DP', 'Frapp', 'Random', 'Sim']
+
+    # ***********************
+    # params for HyObscure
     method = 'HyObscure'
-    deltaX = 0.48
-    pp_list = [0.9]
+    # 1
+    # deltaX = 0.48
+    # pp_list = [0.8, 0.7, 0.5, 0.3, 0.2, 0]
+    # 2
+    deltaX_list = [0.5, 0.56]
+    pp = 0
+
+    # params for YGen
+    # method = 'YGen'
+    # 1
+    # deltaX = 0.48
+    # pp_list = [0.9, 0.8, 0.7, 0.5, 0.3, 0]
+    # 2
+    # deltaX_list = [0.5, 0.52, 0.62]
+    # pp = 0
+
+    # params for XObf
+    # method = 'XObf'
+    # 1
+    # deltaX = 0.48
+    # pp_list = [0.8, 0.7, 0.5, 0.3, 0]
+    # 2
+    # deltaX_list = [0.5, 0.52, 0.56]
+    # pp = 0
+
+    # params for PrivCheck
+    # method = 'PrivCheck'
+    # 1
+    # deltaX =  0.48
+    # pp_list = [0.8, 0.7, 0.5, 0.3, 0]
+    # 2
+    # deltaX_list = [0.5, 0.53, 0.56]
+    # pp = 0
+
+    # params for DP
+    # method = 'DP'
+    # beta_list = [3, 5, 5.5, 6, 6.5, 7, 8, 10]
+    # pp = 0
+
+    # params for Frapp
+    # method = 'Frapp'
+    # 1
+    # gamma = 600
+    # pp_list = [0.3, 0.5, 0.7]
+    # 2
+    # gamma_list = [60, 150, 200, 300, 500]
+    # pp =0
+
+    # params for Random
+    # method = 'Random'
+    # p_rand_list = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
+    # pp = 0
+
+    # params for Sim
+    # method = 'Sim'
+    # pp_list = [0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0]
     
     # fixed settings
     age_group_number = 4
@@ -153,8 +210,29 @@ if __name__ == "__main__":
         funcs.update_age_group(df_item_ageGroup_uid, age_group_dict)
     random.seed(32)
     df_cluster = funcs.Kmeans_clustering(df_item_ageGroup_uid, cluster_num, -3)
-    
-    for pp in pp_list:
+
+    # ********************
+    # HyObscure, YGen, XObf, PrivCheck
+    # 1
+    # for pp in pp_list:
+    # 2
+    for deltaX in deltaX_list:
+
+    # DP
+    # for beta in beta_list:
+
+    # Frapp
+    # 1
+    # for pp in pp_list:
+    # 2
+    # for gamma in gamma_list:
+
+    # Random
+    # for p_rand in p_rand_list:
+
+    # Similarity
+    # for pp in pp_list:
+
         results = {}
         results['ori_age_rf'] = []
         results['obf_age_rf'] = []
